@@ -25,37 +25,37 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_weight="0.25"
-            android:text="Movie Title"
+            android:text="@string/movie_title_text"
             android:textSize="24sp"
             />
 
         <TextView
-            android:id="@+id/movie_status_text"
+            android:id="@+id/movie_ratings_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_weight="0.25"
-            android:text="Status"
-            />
+            android:text="@string/movie_ratings_text" />
 
         <TextView
-            android:id="@+id/movie_genre_text"
+            android:id="@+id/movie_release_date_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_weight="0.25"
-            android:text="Genre"/>
+            android:text="@string/movie_release_date_text"/>
 
         <TextView
+            android:id="@+id/movie_language_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_weight="0.25"
-            android:text="Language"/>
+            android:text="@string/movie_language_text"/>
 
     </LinearLayout>
 

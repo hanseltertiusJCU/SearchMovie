@@ -2,4 +2,8 @@
     <string name="app_name">SearchMovie</string>
     <string name="hint_text">Type a movie</string>
     <string name="search_text">Search</string>
+    <string name="movie_title_text">Movie Title</string>
+    <string name="movie_ratings_text">Ratings</string>
+    <string name="movie_release_date_text">Release Date</string>
+    <string name="movie_language_text">Language</string>
 </resources>
