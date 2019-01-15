@@ -86,8 +86,6 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
 
         final ArrayList<MovieItems> movieItemses = new ArrayList<>();
 
-        // todo: Cari cara untuk load 2 loader yg beda dari loadinbackground, bedasarkan ID
-
         if(mFirstTime){
             String nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + MOVIE_API_KEY;
 

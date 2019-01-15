@@ -6,13 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<MovieItems>> {
+public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<MovieItems>>, AdapterView.OnItemClickListener {
 
     ListView listView;
     MovieAdapter movieAdapter;
@@ -90,4 +91,9 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             getLoaderManager().restartLoader(LOADER_ID_SEARCH, bundle, SearchActivity.this);
         }
     };
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+    }
 }
