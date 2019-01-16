@@ -14,6 +14,7 @@ public class DetailedMovieItems {
     private String detailedMovieRuntimeHour;
     private String detailedMovieRuntimeMinute;
     private String detailedMovieRatings;
+    private String detailedMovieRatingsVote;
     private String detailedMovieLanguages;
     private String detailedMovieGenres;
     private String detailedMovieReleaseDate;
@@ -34,6 +35,8 @@ public class DetailedMovieItems {
             String minuteText = String.valueOf(minute);
             double rating = object.getDouble("vote_average");
             String ratingText = String.valueOf(rating);
+            int ratingVotes = object.getInt("vote_count");
+            String ratingVotesText = String.valueOf(ratingVotes);
             JSONArray languageArray = object.getJSONArray("spoken_languages");
             String languages = null;
             // Iterate language array untuk mendapatkan language yang akan ditambahkan ke languages
@@ -41,7 +44,12 @@ public class DetailedMovieItems {
             for(int i = 0; i < languageArray.length(); i++){
                 JSONObject languageObject = languageArray.getJSONObject(i);
                 String language = languageObject.getString("name");
-                languages += language + " ";
+                if(i == 0)
+                    languages = language + " ";
+                else
+                    languages += language + " ";
+
+
             }
             JSONArray genreArray = object.getJSONArray("genres");
             String genres = null;
@@ -50,13 +58,22 @@ public class DetailedMovieItems {
             for(int i = 0; i< genreArray.length(); i++){
                 JSONObject genreObject = genreArray.getJSONObject(i);
                 String genre = genreObject.getString("name");
-                genres += genre + " ";
+                if(i == 0)
+                    genres = genre + " ";
+                else
+                    genres += genre + " ";
+
+
             }
             String releaseDateString = object.getString("release_date");
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date releaseDate = simpleDateFormat.parse(releaseDateString);
             String releaseDateText = simpleDateFormat.format(releaseDate);
             String overview = object.getString("overview");
+            // Dapatkan detailed movie poster path untuk link
+            String detailedPosterPath = object.getString("poster_path");
+            // Link untuk poster bedasarkan poster path di atas
+            String detailedPosterUrl = "https://image.tmdb.org/t/p/w185" + detailedPosterPath;
 
             // Set values bedasarkan variable-variable yang merepresentasikan field dari sebuah JSON
             // object
@@ -66,10 +83,12 @@ public class DetailedMovieItems {
             this.detailedMovieRuntimeHour = hourText;
             this.detailedMovieRuntimeMinute = minuteText;
             this.detailedMovieRatings = ratingText;
+            this.detailedMovieRatingsVote = ratingVotesText;
             this.detailedMovieLanguages = languages;
             this.detailedMovieGenres = genres;
             this.detailedMovieReleaseDate = releaseDateText;
             this.detailtedMovieOverview = overview;
+            this.detailedMoviePosterUrl = detailedPosterUrl;
 
         } catch (Exception e){
             e.printStackTrace();
@@ -122,6 +141,14 @@ public class DetailedMovieItems {
 
     public void setDetailedMovieRatings(String detailedMovieRatings) {
         this.detailedMovieRatings = detailedMovieRatings;
+    }
+
+    public String getDetailedMovieRatingsVote() {
+        return detailedMovieRatingsVote;
+    }
+
+    public void setDetailedMovieRatingsVote(String detailedMovieRatingsVote) {
+        this.detailedMovieRatingsVote = detailedMovieRatingsVote;
     }
 
     public String getDetailedMovieLanguages() {

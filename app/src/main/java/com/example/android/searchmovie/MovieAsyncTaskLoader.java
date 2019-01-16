@@ -2,8 +2,6 @@ package com.example.android.searchmovie;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
@@ -11,8 +9,6 @@ import com.loopj.android.http.SyncHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.net.URL;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -24,6 +20,8 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
 
     private String mMovieSearch;
     private boolean mFirstTime;
+
+
 
     public MovieAsyncTaskLoader(Context context) {
         super(context);
@@ -156,8 +154,6 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
                 }
             });
         }
-
-
 
         return movieItemses;
     }

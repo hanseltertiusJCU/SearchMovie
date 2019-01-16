@@ -1,10 +1,12 @@
 package com.example.android.searchmovie;
 
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,6 +29,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
     static final String EXTRAS_SEARCH = "EXTRAS_SEARCH";
 
+    static final String MOVIE_ID_DATA = "MOVIE_ID_DATA";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         listView = (ListView) findViewById(R.id.listView);
 
         listView.setAdapter(movieAdapter);
+        // Enable on item click listener untuk dapat call onItemClick dari setiap list item
+        listView.setOnItemClickListener(this);
 
         searchEditText = (EditText) findViewById(R.id.edit_movie_search);
         searchButton = (Button) findViewById(R.id.button_search);
@@ -88,12 +94,18 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             // mengaccomodate Search
             Bundle bundle = new Bundle();
             bundle.putString(EXTRAS_SEARCH, movie);
+            // Restart loader karena kita sudah membuat loader di onCreate
             getLoaderManager().restartLoader(LOADER_ID_SEARCH, bundle, SearchActivity.this);
         }
     };
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
+        int movieIdItem = movieAdapter.getmMovieData().get(position).getId();
+        Intent intentWithMovieIdData = new Intent(SearchActivity.this, DetailActivity.class);
+        // Bawa data untuk disampaikan ke {@link DetailActivity}
+        intentWithMovieIdData.putExtra(MOVIE_ID_DATA, movieIdItem);
+        // Start activity tujuan
+        startActivity(intentWithMovieIdData);
     }
 }

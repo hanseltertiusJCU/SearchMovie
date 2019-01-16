@@ -21,6 +21,10 @@ public class MovieAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater;
     private Context context;
 
+    public ArrayList<MovieItems> getmMovieData() {
+        return mMovieData;
+    }
+
     public MovieAdapter(Context context){
         this.context = context;
         mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -73,8 +77,6 @@ public class MovieAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        // mungkin cara lainnya pake image uri or smth, todo: find another way to handle beside using picasso
-        //        viewHolder.imageViewMoviePoster.setImageBitmap(formatImageBitmap(mMovieData.get(position).getMoviePosterUrl()));
         Picasso.get().load(mMovieData.get(position).getMoviePosterUrl()).into(viewHolder.imageViewMoviePoster);
         viewHolder.textViewMovieTitle.setText(mMovieData.get(position).getMovieTitle());
         viewHolder.textViewMovieRatings.setText(mMovieData.get(position).getMovieRatings());
@@ -91,21 +93,5 @@ public class MovieAdapter extends BaseAdapter {
         TextView textViewMovieReleaseDate;
         TextView textViewMovieOriginalLanguage;
     }
-
-//    // Kelas ini berguna untuk dapat menggunakan setImageBitmap method dimana parameter dari method
-//    // tsb adalah Bitmap object
-//    private Bitmap formatImageBitmap(String posterInput){
-//        Bitmap posterBitmap;
-//        if (posterInput == null){
-//            posterBitmap = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.image_poster_sample);
-//        } else {
-//            // Proses ini adalah untuk mengconvert String menjadi Bitmap
-//            // (flow: String -> byte[] -> Bitmap)
-//            byte[] encodedByte = Base64.decode(posterInput, Base64.DEFAULT);
-//            Bitmap posterInputBitmap = BitmapFactory.decodeByteArray(encodedByte, 0, encodedByte.length);
-//            posterBitmap = posterInputBitmap;
-//        }
-//        return posterBitmap;
-//    }
 
 }
