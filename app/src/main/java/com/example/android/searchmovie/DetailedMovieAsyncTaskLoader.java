@@ -15,7 +15,7 @@ import cz.msebera.android.httpclient.Header;
 public class DetailedMovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<DetailedMovieItems>>{
 
     ArrayList<DetailedMovieItems> mDetailedMovieData;
-    private boolean mHasResult = false;
+    boolean mHasResult = false;
 
     private int mDetailedMovieId;
 

@@ -25,8 +25,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     TextView textViewDetailedMovieReleaseDate;
     TextView textViewDetailedMovieOverview;
 
-    DetailedMovieAsyncTaskLoader detailedMovieLoader = null;
-
     int detailedMovieId;
 
     static final int LOADER_ID_SEARCH = 103;
@@ -58,28 +56,27 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public Loader<ArrayList<DetailedMovieItems>> onCreateLoader(int i, Bundle bundle) {
 
-        detailedMovieLoader = new DetailedMovieAsyncTaskLoader(this, detailedMovieId);
-
-        return detailedMovieLoader;
+        return new DetailedMovieAsyncTaskLoader(this, detailedMovieId);
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<DetailedMovieItems>> loader, ArrayList<DetailedMovieItems> detailedMovieItems) {
+
         // Set semua data ke dalam detail activity
-        Picasso.get().load(detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMoviePosterUrl()).into(imageViewDetailedPosterImage);
-        textViewDetailedMovieTitle.setText(detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieTitle());
-        textViewDetailedMovieTagline.setText("\"" + detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieTagline() + "\"");
-        textViewDetailedMovieRuntime.setText("Runtime: " + detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieRuntimeHour() +
-                " hour(s) " + detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieRuntimeMinute() + " minute(s)");
-        textViewDetailedMovieRating.setText("Rating : " + detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieRatings() +
-                " from " + detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieRatingsVote() + " vote(s)");
-        textViewDetailedMovieLanguage.setText(detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieLanguages());
-        textViewDetailedMovieGenres.setText(detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieGenres());
-        textViewDetailedMovieReleaseDate.setText(detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieReleaseDate());
-        textViewDetailedMovieOverview.setText(detailedMovieLoader.getmDetailedMovieData().get(0).getDetailtedMovieOverview());
+        Picasso.get().load(detailedMovieItems.get(0).getDetailedMoviePosterUrl()).into(imageViewDetailedPosterImage);
+        textViewDetailedMovieTitle.setText(detailedMovieItems.get(0).getDetailedMovieTitle());
+        textViewDetailedMovieTagline.setText("\"" + detailedMovieItems.get(0).getDetailedMovieTagline() + "\"");
+        textViewDetailedMovieRuntime.setText("Runtime: " + detailedMovieItems.get(0).getDetailedMovieRuntimeHour() +
+                " hour(s) " + detailedMovieItems.get(0).getDetailedMovieRuntimeMinute() + " minute(s)");
+        textViewDetailedMovieRating.setText("Rating : " + detailedMovieItems.get(0).getDetailedMovieRatings() +
+                " from " + detailedMovieItems.get(0).getDetailedMovieRatingsVote() + " vote(s)");
+        textViewDetailedMovieLanguage.setText(detailedMovieItems.get(0).getDetailedMovieLanguages());
+        textViewDetailedMovieGenres.setText(detailedMovieItems.get(0).getDetailedMovieGenres());
+        textViewDetailedMovieReleaseDate.setText(detailedMovieItems.get(0).getDetailedMovieReleaseDate());
+        textViewDetailedMovieOverview.setText(detailedMovieItems.get(0).getDetailtedMovieOverview());
 
         // Set judul untuk DetailActivity
-        setTitle(detailedMovieLoader.getmDetailedMovieData().get(0).getDetailedMovieTitle());
+        setTitle(detailedMovieItems.get(0).getDetailedMovieTitle());
 
     }
 
