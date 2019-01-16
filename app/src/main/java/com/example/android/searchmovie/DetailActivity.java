@@ -5,7 +5,6 @@ import android.content.Loader;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     TextView textViewDetailedMovieOverview;
 
     int detailedMovieId;
+    String detailedMovieTitle;
 
     static final int LOADER_ID_SEARCH = 103;
 
@@ -46,8 +46,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         textViewDetailedMovieReleaseDate = findViewById(R.id.detailed_movie_release_date_text);
         textViewDetailedMovieOverview = findViewById(R.id.detailed_movie_overview_text);
 
-        // Get intent untuk mendapatkan id dari {@link SearchActivity}
+        // Get intent untuk mendapatkan id dan title dari {@link SearchActivity}
         detailedMovieId = getIntent().getIntExtra(SearchActivity.MOVIE_ID_DATA, 0);
+        detailedMovieTitle = getIntent().getStringExtra(SearchActivity.MOVIE_TITLE_DATA);
+
+        // Set title untuk DetailActivity
+        setTitle(detailedMovieTitle);
 
         // initLoader untuk mentrigger onCreateLoader
         getLoaderManager().initLoader(LOADER_ID_SEARCH, savedInstanceState, this);
@@ -59,10 +63,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         return new DetailedMovieAsyncTaskLoader(this, detailedMovieId);
     }
 
+    // Kita menggunakan detailedMovieItems sebagai parameter karena parameter tsb itu dicarry dari onCreateLoader sebagai isi data
     @Override
     public void onLoadFinished(Loader<ArrayList<DetailedMovieItems>> loader, ArrayList<DetailedMovieItems> detailedMovieItems) {
 
         // Set semua data ke dalam detail activity
+
+        // Pake get(0) karena kita itu ingin mengakses object pertama (dan satu-satunya)
+        // dari ArrayList sejak kita ingin show hanya satu object.
         Picasso.get().load(detailedMovieItems.get(0).getDetailedMoviePosterUrl()).into(imageViewDetailedPosterImage);
         textViewDetailedMovieTitle.setText(detailedMovieItems.get(0).getDetailedMovieTitle());
         textViewDetailedMovieTagline.setText("\"" + detailedMovieItems.get(0).getDetailedMovieTagline() + "\"");
@@ -74,9 +82,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         textViewDetailedMovieGenres.setText(detailedMovieItems.get(0).getDetailedMovieGenres());
         textViewDetailedMovieReleaseDate.setText(detailedMovieItems.get(0).getDetailedMovieReleaseDate());
         textViewDetailedMovieOverview.setText(detailedMovieItems.get(0).getDetailtedMovieOverview());
-
-        // Set judul untuk DetailActivity
-        setTitle(detailedMovieItems.get(0).getDetailedMovieTitle());
 
     }
 

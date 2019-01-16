@@ -27,9 +27,12 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     static final int LOADER_ID_NOW_PLAYING = 101;
     static final int LOADER_ID_SEARCH = 102;
 
+    // Key untuk meretrieve search
     static final String EXTRAS_SEARCH = "EXTRAS_SEARCH";
 
+    // Key untuk membawa data ke intent
     static final String MOVIE_ID_DATA = "MOVIE_ID_DATA";
+    static final String MOVIE_TITLE_DATA = "MOVIE_TITLE_DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         public void onClick(View view) {
             String movie = searchEditText.getText().toString();
 
-            // Cek ketika edit textnya itu kosong atau tidak,
+            // Cek ketika edit textnya itu kosong atau tidak, ketika iya maka program tsb tidak
+            // ngapa-ngapain dengan return nothing
             if(TextUtils.isEmpty(movie))
                 return;
 
@@ -101,11 +105,14 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        // Dapatkan id dan title bedasarkan ListView item
         int movieIdItem = movieAdapter.getmMovieData().get(position).getId();
+        String movieTitleItem = movieAdapter.getmMovieData().get(position).getMovieTitle();
         Intent intentWithMovieIdData = new Intent(SearchActivity.this, DetailActivity.class);
         // Bawa data untuk disampaikan ke {@link DetailActivity}
         intentWithMovieIdData.putExtra(MOVIE_ID_DATA, movieIdItem);
-        // Start activity tujuan
+        intentWithMovieIdData.putExtra(MOVIE_TITLE_DATA, movieTitleItem);
+        // Start activity tujuan bedasarkan intent object
         startActivity(intentWithMovieIdData);
     }
 }

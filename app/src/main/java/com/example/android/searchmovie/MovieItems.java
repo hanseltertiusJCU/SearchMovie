@@ -33,8 +33,11 @@ public class MovieItems {
             String displayed_language = language.toUpperCase();
             // Dapatkan poster path untuk link
             String posterPath = object.getString("poster_path");
-            // Link untuk poster bedasarkan poster path di atas
-            String posterUrl = "https://image.tmdb.org/t/p/w185" + posterPath;
+            String posterUrl = null;
+            if(posterPath != null){
+                // Link untuk poster bedasarkan poster path di atas
+                posterUrl = "https://image.tmdb.org/t/p/w185" + posterPath;
+            }
 
             // Set values bedasarkan variable-variable yang merepresentasikan field dari sebuah JSON
             // object
