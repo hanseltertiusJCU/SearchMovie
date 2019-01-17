@@ -37,6 +37,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     static final String MOVIE_ID_DATA = "MOVIE_ID_DATA";
     static final String MOVIE_TITLE_DATA = "MOVIE_TITLE_DATA";
 
+    boolean firstTime = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

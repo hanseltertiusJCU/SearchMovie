@@ -2,9 +2,14 @@ package com.example.android.searchmovie;
 
 import android.app.LoaderManager;
 import android.content.Loader;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -93,14 +98,46 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         Picasso.get().load(detailedMovieItems.get(0).getDetailedMoviePosterUrl()).into(imageViewDetailedPosterImage);
         textViewDetailedMovieTitle.setText(detailedMovieItems.get(0).getDetailedMovieTitle());
         textViewDetailedMovieTagline.setText("\"" + detailedMovieItems.get(0).getDetailedMovieTagline() + "\"");
-        textViewDetailedMovieRuntime.setText("Runtime: " + detailedMovieItems.get(0).getDetailedMovieRuntimeHour() +
-                " hour(s) " + detailedMovieItems.get(0).getDetailedMovieRuntimeMinute() + " minute(s)");
-        textViewDetailedMovieRating.setText("Rating : " + detailedMovieItems.get(0).getDetailedMovieRatings() +
-                " from " + detailedMovieItems.get(0).getDetailedMovieRatingsVote() + " vote(s)");
+
+        // Set textview content in detailed movie runtime to contain a variety of different colors
+        Spannable runtimeWord = new SpannableString("Runtime: ");
+        runtimeWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, runtimeWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRuntime.setText(runtimeWord);
+        Spannable runtimeDetailedMovieHour = new SpannableString(detailedMovieItems.get(0).getDetailedMovieRuntimeHour());
+        runtimeDetailedMovieHour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, runtimeDetailedMovieHour.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRuntime.append(runtimeDetailedMovieHour);
+        Spannable runtimeHours = new SpannableString(" hour(s) ");
+        runtimeHours.setSpan(new ForegroundColorSpan(Color.BLACK), 0, runtimeHours.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRuntime.append(runtimeHours);
+        Spannable runtimeDetailedMovieMinute = new SpannableString(detailedMovieItems.get(0).getDetailedMovieRuntimeMinute());
+        runtimeDetailedMovieMinute.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, runtimeDetailedMovieMinute.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRuntime.append(runtimeDetailedMovieMinute);
+        Spannable runtimeMinutes = new SpannableString(" minute(s) ");
+        runtimeMinutes.setSpan(new ForegroundColorSpan(Color.BLACK), 0, runtimeMinutes.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRuntime.append(runtimeMinutes);
+
+        // Set textview content in detailed movie rating to contain a variety of different colors
+        Spannable ratingWord = new SpannableString("Rating : ");
+        ratingWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRating.append(ratingWord);
+        Spannable ratingDetailedMovie = new SpannableString(detailedMovieItems.get(0).getDetailedMovieRatings());
+        ratingDetailedMovie.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, ratingDetailedMovie.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRating.append(ratingDetailedMovie);
+        Spannable ratingFromWord = new SpannableString(" from ");
+        ratingFromWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingFromWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRating.append(ratingFromWord);
+        Spannable ratingDetailedMovieVotes = new SpannableString(detailedMovieItems.get(0).getDetailedMovieRatingsVote());
+        ratingDetailedMovieVotes.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, ratingDetailedMovieVotes.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRating.append(ratingDetailedMovieVotes);
+        Spannable ratingVotesWord = new SpannableString(" vote(s)");
+        ratingVotesWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingVotesWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRating.append(ratingVotesWord);
+
         textViewDetailedMovieLanguage.setText(detailedMovieItems.get(0).getDetailedMovieLanguages());
         textViewDetailedMovieGenres.setText(detailedMovieItems.get(0).getDetailedMovieGenres());
         textViewDetailedMovieReleaseDate.setText(detailedMovieItems.get(0).getDetailedMovieReleaseDate());
         textViewDetailedMovieOverview.setText(detailedMovieItems.get(0).getDetailtedMovieOverview());
+
 
     }
 
