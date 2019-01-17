@@ -5,7 +5,11 @@ import android.content.Loader;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -26,6 +30,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     int detailedMovieId;
     String detailedMovieTitle;
+
+    LinearLayout contentLayout;
+    ProgressBar detailProgress;
 
     static final int LOADER_ID_SEARCH = 103;
 
@@ -50,8 +57,16 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         detailedMovieId = getIntent().getIntExtra(SearchActivity.MOVIE_ID_DATA, 0);
         detailedMovieTitle = getIntent().getStringExtra(SearchActivity.MOVIE_TITLE_DATA);
 
+        // Set layout value untuk dapat menjalankan process loading data
+        contentLayout = findViewById(R.id.detailed_movie_item);
+        detailProgress = findViewById(R.id.detailed_progress_bar);
+
         // Set title untuk DetailActivity
         setTitle(detailedMovieTitle);
+
+        // Set visiblity of views ketika sedang dalam meretrieve data
+        contentLayout.setVisibility(View.INVISIBLE);
+        detailProgress.setVisibility(View.VISIBLE);
 
         // initLoader untuk mentrigger onCreateLoader
         getLoaderManager().initLoader(LOADER_ID_SEARCH, savedInstanceState, this);
@@ -59,13 +74,17 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public Loader<ArrayList<DetailedMovieItems>> onCreateLoader(int i, Bundle bundle) {
-
         return new DetailedMovieAsyncTaskLoader(this, detailedMovieId);
     }
 
     // Kita menggunakan detailedMovieItems sebagai parameter karena parameter tsb itu dicarry dari onCreateLoader sebagai isi data
     @Override
     public void onLoadFinished(Loader<ArrayList<DetailedMovieItems>> loader, ArrayList<DetailedMovieItems> detailedMovieItems) {
+
+        // Ketika data selesai di load, maka kita akan mendapatkan data dan menghilangkan progress bar
+        // yang menandakan bahwa loadingnya sudah selesai
+        contentLayout.setVisibility(View.VISIBLE);
+        detailProgress.setVisibility(View.GONE);
 
         // Set semua data ke dalam detail activity
 

@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
     EditText searchEditText;
     Button searchButton;
+
+    ProgressBar progressBar;
 
     // 2 Loader IDs untuk menangani 2 Loader yang berbeda
     static final int LOADER_ID_NOW_PLAYING = 101;
@@ -50,6 +53,12 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         searchEditText = (EditText) findViewById(R.id.edit_movie_search);
         searchButton = (Button) findViewById(R.id.button_search);
 
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+        // Set visiblity of views ketika sedang dalam meretrieve data
+        listView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
         searchButton.setOnClickListener(myListener);
 
         getLoaderManager().initLoader(LOADER_ID_NOW_PLAYING, savedInstanceState, this);
@@ -76,7 +85,12 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<ArrayList<MovieItems>> loader, ArrayList<MovieItems> movieItems) {
+        // Ketika data selesai di load, maka kita akan mendapatkan data dan menghilangkan progress bar
+        // yang menandakan bahwa loadingnya sudah selesai
+        listView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         movieAdapter.setData(movieItems);
+
     }
 
     @Override
@@ -98,6 +112,11 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             // mengaccomodate Search
             Bundle bundle = new Bundle();
             bundle.putString(EXTRAS_SEARCH, movie);
+
+            // Ketika kita ngeclick search, maka data akan melakukan loading kembali
+            listView.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+
             // Restart loader karena kita sudah membuat loader di onCreate
             getLoaderManager().restartLoader(LOADER_ID_SEARCH, bundle, SearchActivity.this);
         }
