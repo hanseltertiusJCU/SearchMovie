@@ -19,7 +19,7 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
     private boolean mHasResult = false;
 
     private String mMovieSearch;
-    private boolean mFirstTime;
+    private boolean mNoKeywordMovieSearch;
 
 
 
@@ -27,7 +27,7 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
         super(context);
         // Ketika isi dari Loader itu berganti, panggil method tsb.
         onContentChanged();
-        this.mFirstTime = true;
+        this.mNoKeywordMovieSearch = true;
     }
 
     public MovieAsyncTaskLoader(Context context, String movieSearch){
@@ -35,7 +35,7 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
 
         onContentChanged();
         this.mMovieSearch = movieSearch;
-        this.mFirstTime = false;
+        this.mNoKeywordMovieSearch = false;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
 
         final ArrayList<MovieItems> movieItemses = new ArrayList<>();
 
-        if(mFirstTime){
+        if(mNoKeywordMovieSearch){
             String nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + MOVIE_API_KEY;
 
             // Panggil get method untuk melakukan request terhadap web service melalui HTTP GET

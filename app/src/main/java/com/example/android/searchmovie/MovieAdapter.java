@@ -101,7 +101,7 @@ public class MovieAdapter extends BaseAdapter {
         Spannable releaseDateMovieItemWord = new SpannableString("Release Date : ");
         releaseDateMovieItemWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, releaseDateMovieItemWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.textViewMovieReleaseDate.setText(releaseDateMovieItemWord);
-        Spannable releaseDateMovieItem = new SpannableString(mMovieData.get(position).getMovieRatings());
+        Spannable releaseDateMovieItem = new SpannableString(mMovieData.get(position).getMovieReleaseDate());
         releaseDateMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, releaseDateMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.textViewMovieReleaseDate.append(releaseDateMovieItem);
 

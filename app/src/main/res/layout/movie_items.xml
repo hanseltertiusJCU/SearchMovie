@@ -28,7 +28,7 @@
             android:layout_weight="0.25"
             android:text="@string/movie_title_text"
             android:textSize="24sp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             />
 

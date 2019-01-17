@@ -27,17 +27,16 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     ProgressBar progressBar;
 
     // 2 Loader IDs untuk menangani 2 Loader yang berbeda
-    static final int LOADER_ID_NOW_PLAYING = 101;
-    static final int LOADER_ID_SEARCH = 102;
+    static final int LOADER_ID_MOVIE = 101;
 
     // Key untuk meretrieve search
-    static final String EXTRAS_SEARCH = "EXTRAS_SEARCH";
+    static final String EXTRAS_MOVIE_SEARCH = "EXTRAS_MOVIE_SEARCH";
 
     // Key untuk membawa data ke intent
     static final String MOVIE_ID_DATA = "MOVIE_ID_DATA";
     static final String MOVIE_TITLE_DATA = "MOVIE_TITLE_DATA";
 
-    boolean firstTime = true;
+    String movieSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +45,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
         movieAdapter = new MovieAdapter(this);
         movieAdapter.notifyDataSetChanged();
+
         listView = (ListView) findViewById(R.id.listView);
 
         listView.setAdapter(movieAdapter);
@@ -63,25 +63,26 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
         searchButton.setOnClickListener(myListener);
 
-        getLoaderManager().initLoader(LOADER_ID_NOW_PLAYING, savedInstanceState, this);
+        getLoaderManager().initLoader(LOADER_ID_MOVIE, savedInstanceState, this);
 
     }
 
     @Override
     public Loader<ArrayList<MovieItems>> onCreateLoader(int id, Bundle args) {
-        MovieAsyncTaskLoader movieLoader = null;
-        if(id == LOADER_ID_NOW_PLAYING)
-            movieLoader =  new MovieAsyncTaskLoader(this);
+        MovieAsyncTaskLoader movieLoader;
 
-        if(id == LOADER_ID_SEARCH){
+        String movieResult = "";
 
-            String movieResult = "";
-            if(args != null){
-                movieResult = args.getString(EXTRAS_SEARCH);
-            }
+        if(args != null){
+            movieResult = args.getString(EXTRAS_MOVIE_SEARCH);
+        }
 
+        if(movieResult.isEmpty()){
+            movieLoader = new MovieAsyncTaskLoader(this);
+        } else {
             movieLoader = new MovieAsyncTaskLoader(this, movieResult);
         }
+
         return movieLoader;
     }
 
@@ -103,24 +104,24 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     View.OnClickListener myListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String movie = searchEditText.getText().toString();
+            movieSearch = searchEditText.getText().toString();
 
             // Cek ketika edit textnya itu kosong atau tidak, ketika iya maka program tsb tidak
             // ngapa-ngapain dengan return nothing
-            if(TextUtils.isEmpty(movie))
+            if(TextUtils.isEmpty(movieSearch))
                 return;
 
             // Jika isi dari edit textnya itu tidak kosong, maka kita akan merestart loader untuk
             // mengaccomodate Search
             Bundle bundle = new Bundle();
-            bundle.putString(EXTRAS_SEARCH, movie);
+            bundle.putString(EXTRAS_MOVIE_SEARCH, movieSearch);
 
             // Ketika kita ngeclick search, maka data akan melakukan loading kembali
             listView.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
 
             // Restart loader karena kita sudah membuat loader di onCreate
-            getLoaderManager().restartLoader(LOADER_ID_SEARCH, bundle, SearchActivity.this);
+            getLoaderManager().restartLoader(LOADER_ID_MOVIE, bundle, SearchActivity.this);
         }
     };
 
@@ -136,4 +137,5 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         // Start activity tujuan bedasarkan intent object
         startActivity(intentWithMovieIdData);
     }
+
 }
