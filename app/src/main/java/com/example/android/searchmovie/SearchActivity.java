@@ -73,15 +73,15 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
         String movieResult = "";
 
-        if(args != null){
+        if(args != null)
             movieResult = args.getString(EXTRAS_MOVIE_SEARCH);
-        }
 
-        if(movieResult.isEmpty()){
+
+        if(movieResult.isEmpty())
             movieLoader = new MovieAsyncTaskLoader(this);
-        } else {
+        else
             movieLoader = new MovieAsyncTaskLoader(this, movieResult);
-        }
+
 
         return movieLoader;
     }

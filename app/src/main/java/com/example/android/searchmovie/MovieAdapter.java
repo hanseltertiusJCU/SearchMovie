@@ -1,14 +1,11 @@
 package com.example.android.searchmovie;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,32 +83,59 @@ public class MovieAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Picasso.get().load(mMovieData.get(position).getMoviePosterUrl()).into(viewHolder.imageViewMoviePoster);
-        viewHolder.textViewMovieTitle.setText(mMovieData.get(position).getMovieTitle());
+        if(mMovieData.get(position).getMoviePosterPath() != null)
+            Picasso.get().load("https://image.tmdb.org/t/p/w185" + mMovieData.get(position).getMoviePosterPath()).into(viewHolder.imageViewMoviePoster);
+        else
+            viewHolder.imageViewMoviePoster.setImageResource(R.drawable.no_image_available);
+
+
+        if(mMovieData.get(position).getMovieTitle() == null)
+            viewHolder.textViewMovieTitle.setText("Title Unknown");
+        else
+            viewHolder.textViewMovieTitle.setText(mMovieData.get(position).getMovieTitle());
 
         // Set textview content in movie item rating to contain a variety of different colors
         Spannable ratingMovieItemWord = new SpannableString("Ratings : ");
         ratingMovieItemWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingMovieItemWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.textViewMovieRatings.setText(ratingMovieItemWord);
-        Spannable ratingMovieItem = new SpannableString(mMovieData.get(position).getMovieRatings());
-        ratingMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, ratingMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        viewHolder.textViewMovieRatings.append(ratingMovieItem);
+        if(mMovieData.get(position).getMovieRatings() == null){
+            Spannable ratingMovieItem = new SpannableString(String.valueOf(0.0));
+            ratingMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, ratingMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            viewHolder.textViewMovieRatings.append(ratingMovieItem);
+        } else {
+            Spannable ratingMovieItem = new SpannableString(mMovieData.get(position).getMovieRatings());
+            ratingMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, ratingMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            viewHolder.textViewMovieRatings.append(ratingMovieItem);
+        }
 
         // Set textview content in movie item release date to contain a variety of different colors
         Spannable releaseDateMovieItemWord = new SpannableString("Release Date : ");
         releaseDateMovieItemWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, releaseDateMovieItemWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.textViewMovieReleaseDate.setText(releaseDateMovieItemWord);
-        Spannable releaseDateMovieItem = new SpannableString(mMovieData.get(position).getMovieReleaseDate());
-        releaseDateMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, releaseDateMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        viewHolder.textViewMovieReleaseDate.append(releaseDateMovieItem);
+        if(!mMovieData.get(position).getMovieReleaseDate().equals("")){
+            Spannable releaseDateMovieItem = new SpannableString(mMovieData.get(position).getMovieReleaseDate());
+            releaseDateMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, releaseDateMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            viewHolder.textViewMovieReleaseDate.append(releaseDateMovieItem);
+        } else {
+            Spannable releaseDateMovieItem = new SpannableString("yyyy-MM-dd");
+            releaseDateMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, releaseDateMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            viewHolder.textViewMovieReleaseDate.append(releaseDateMovieItem);
+        }
+
 
         // Set textview content in movie item original language to contain a variety of different colors
         Spannable languageMovieItemWord = new SpannableString("Language : ");
         languageMovieItemWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, languageMovieItemWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.textViewMovieOriginalLanguage.setText(languageMovieItemWord);
-        Spannable languageMovieItem = new SpannableString(mMovieData.get(position).getMovieLanguage());
-        languageMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, languageMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        viewHolder.textViewMovieOriginalLanguage.append(languageMovieItem);
+        if(!mMovieData.get(position).getMovieLanguage().equals("")){
+            Spannable languageMovieItem = new SpannableString(mMovieData.get(position).getMovieLanguage());
+            languageMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, languageMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            viewHolder.textViewMovieOriginalLanguage.append(languageMovieItem);
+        } else {
+            Spannable languageMovieItem = new SpannableString("Unknown");
+            languageMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, languageMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            viewHolder.textViewMovieOriginalLanguage.append(languageMovieItem);
+        }
 
         return convertView;
     }

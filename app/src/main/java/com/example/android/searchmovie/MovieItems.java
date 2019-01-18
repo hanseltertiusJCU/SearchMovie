@@ -1,6 +1,7 @@
 package com.example.android.searchmovie;
 
-import org.json.JSONArray;
+import android.util.Log;
+
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -13,40 +14,29 @@ public class MovieItems {
     private String movieRatings;
     private String movieReleaseDate;
     private String movieLanguage;
-    private String moviePosterUrl;
+    private String moviePosterPath;
 
     public MovieItems(JSONObject object){
         try{
             int id = object.getInt("id");
             String title = object.getString("title");
-            double rating = object.getDouble("vote_average");
-            // Ubah double menjadi String untuk di display ke View
-            String ratingText = String.valueOf(rating);
-            String releaseDateString = object.getString("release_date");
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            // Ubah String menjadi Date object
-            Date releaseDate = simpleDateFormat.parse(releaseDateString);
-            // Ubah Date menjadi String untuk di display ke View
-            String releaseDateText = simpleDateFormat.format(releaseDate);
+            String rating = object.getString("vote_average");
+            String releaseDate = object.getString("release_date");
             String language = object.getString("original_language");
             // Ubah language menjadi upper case
             String displayed_language = language.toUpperCase();
             // Dapatkan poster path untuk link
             String posterPath = object.getString("poster_path");
-            String posterUrl = null;
-            if(posterPath != null){
-                // Link untuk poster bedasarkan poster path di atas
-                posterUrl = "https://image.tmdb.org/t/p/w185" + posterPath;
-            }
+            Log.d("poster path movie", posterPath);
 
             // Set values bedasarkan variable-variable yang merepresentasikan field dari sebuah JSON
             // object
             this.id = id;
             this.movieTitle = title;
-            this.movieRatings = ratingText;
-            this.movieReleaseDate = releaseDateText;
+            this.movieRatings = rating;
+            this.movieReleaseDate = releaseDate;
             this.movieLanguage = displayed_language;
-            this.moviePosterUrl = posterUrl;
+            this.moviePosterPath = posterPath;
 
 
         } catch (Exception e){
@@ -94,11 +84,11 @@ public class MovieItems {
         this.movieLanguage = movieLanguage;
     }
 
-    public String getMoviePosterUrl() {
-        return moviePosterUrl;
+    public String getMoviePosterPath() {
+        return moviePosterPath;
     }
 
-    public void setMoviePosterUrl(String moviePosterUrl) {
-        this.moviePosterUrl = moviePosterUrl;
+    public void setMoviePosterPath(String moviePosterPath) {
+        this.moviePosterPath = moviePosterPath;
     }
 }

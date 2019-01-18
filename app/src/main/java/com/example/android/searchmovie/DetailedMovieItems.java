@@ -1,5 +1,7 @@
 package com.example.android.searchmovie;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,61 +21,85 @@ public class DetailedMovieItems {
     private String detailedMovieGenres;
     private String detailedMovieReleaseDate;
     private String detailtedMovieOverview;
-    private String detailedMoviePosterUrl;
+    private String detailedMoviePosterPath;
 
     public DetailedMovieItems(JSONObject object){
         try{
             int id = object.getInt("id");
             String title = object.getString("title");
             String tagline = object.getString("tagline");
-            int runtime = object.getInt("runtime");
-            // Cari runtime hour tanpa ada decimal places
-            int hour = ((int) runtime / 60);
-            String hourText = String.valueOf(hour);
-            // Cari runtime minute dengan mendapatkan sisa dari pembagian (% operator)
-            int minute = runtime % 60;
-            String minuteText = String.valueOf(minute);
-            double rating = object.getDouble("vote_average");
-            String ratingText = String.valueOf(rating);
-            int ratingVotes = object.getInt("vote_count");
-            String ratingVotesText = String.valueOf(ratingVotes);
+            String runtime = object.getString("runtime");
+            Log.d("Runtime detailed movie:", runtime);
+            String hourText;
+            String minuteText;
+
+            if(runtime != null){
+                // Cari runtime hour tanpa ada decimal places
+                Integer hour = ((int) Integer.parseInt(runtime) / 60);
+                hourText = String.valueOf(hour);
+                // Cari runtime minute dengan mendapatkan sisa dari pembagian (% operator)
+                Integer minute = Integer.parseInt(runtime) % 60;
+                minuteText = String.valueOf(minute);
+            } else {
+                hourText = String.valueOf(0);
+                minuteText = String.valueOf(0);
+            }
+
+            String rating = object.getString("vote_average");
+            String ratingText;
+            if(rating != null)
+                ratingText = rating;
+            else
+                ratingText = String.valueOf(0);
+
+            String ratingVotes = object.getString("vote_count");
+            String ratingVotesText;
+            if(ratingVotes != null)
+                ratingVotesText = ratingVotes;
+            else
+                ratingVotesText = String.valueOf(0);
+
+
             JSONArray languageArray = object.getJSONArray("spoken_languages");
             String languages = null;
-            // Iterate language array untuk mendapatkan language yang akan ditambahkan ke languages
-            // fyi: languages itu adalah koleksi dari language field
-            for(int i = 0; i < languageArray.length(); i++){
-                JSONObject languageObject = languageArray.getJSONObject(i);
-                String language = languageObject.getString("name");
-                if(i == 0)
-                    languages = language + " ";
-                else
-                    languages += language + " ";
-
-
+            if(languageArray.length() > 0){
+                // Iterate language array untuk mendapatkan language yang akan ditambahkan ke languages
+                // fyi: languages itu adalah koleksi dari language field
+                for(int i = 0; i < languageArray.length(); i++){
+                    JSONObject languageObject = languageArray.getJSONObject(i);
+                    String language = languageObject.getString("name");
+                    if(i == 0)
+                        languages = language + " ";
+                    else
+                        languages += language + " ";
+                }
+            } else {
+                languages = " ";
             }
+
             JSONArray genreArray = object.getJSONArray("genres");
             String genres = null;
-            // Iterate genre array untuk mendapatkan genre yang akan ditambahkan ke genres
-            // fyi: genres itu adalah koleksi dari genre field
-            for(int i = 0; i< genreArray.length(); i++){
-                JSONObject genreObject = genreArray.getJSONObject(i);
-                String genre = genreObject.getString("name");
-                if(i == 0)
-                    genres = genre + " ";
-                else
-                    genres += genre + " ";
 
-
+            if(genreArray.length() > 0){
+                // Iterate genre array untuk mendapatkan genre yang akan ditambahkan ke genres
+                // fyi: genres itu adalah koleksi dari genre field
+                for(int i = 0; i< genreArray.length(); i++){
+                    JSONObject genreObject = genreArray.getJSONObject(i);
+                    String genre = genreObject.getString("name");
+                    if(i == 0)
+                        genres = genre + " ";
+                    else
+                        genres += genre + " ";
+                }
+            } else {
+                genres = " ";
             }
-            String releaseDateString = object.getString("release_date");
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date releaseDate = simpleDateFormat.parse(releaseDateString);
-            String releaseDateText = simpleDateFormat.format(releaseDate);
+
+            String releaseDate = object.getString("release_date");
             String overview = object.getString("overview");
             // Dapatkan detailed movie poster path untuk link
             String detailedPosterPath = object.getString("poster_path");
-            // Link untuk poster bedasarkan poster path di atas
-            String detailedPosterUrl = "https://image.tmdb.org/t/p/w185" + detailedPosterPath;
+            Log.d("Detailed path: ", detailedPosterPath);
 
             // Set values bedasarkan variable-variable yang merepresentasikan field dari sebuah JSON
             // object
@@ -86,9 +112,9 @@ public class DetailedMovieItems {
             this.detailedMovieRatingsVote = ratingVotesText;
             this.detailedMovieLanguages = languages;
             this.detailedMovieGenres = genres;
-            this.detailedMovieReleaseDate = releaseDateText;
+            this.detailedMovieReleaseDate = releaseDate;
             this.detailtedMovieOverview = overview;
-            this.detailedMoviePosterUrl = detailedPosterUrl;
+            this.detailedMoviePosterPath = detailedPosterPath;
 
         } catch (Exception e){
             e.printStackTrace();
@@ -183,11 +209,11 @@ public class DetailedMovieItems {
         this.detailtedMovieOverview = detailtedMovieOverview;
     }
 
-    public String getDetailedMoviePosterUrl() {
-        return detailedMoviePosterUrl;
+    public String getDetailedMoviePosterPath() {
+        return detailedMoviePosterPath;
     }
 
-    public void setDetailedMoviePosterUrl(String detailedMoviePosterUrl) {
-        this.detailedMoviePosterUrl = detailedMoviePosterUrl;
+    public void setDetailedMoviePosterPath(String detailedMoviePosterPath) {
+        this.detailedMoviePosterPath = detailedMoviePosterPath;
     }
 }

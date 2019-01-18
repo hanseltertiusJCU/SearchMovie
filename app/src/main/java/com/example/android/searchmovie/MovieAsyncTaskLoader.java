@@ -141,12 +141,7 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
                        for (int i = 0; i < results.length(); i++){
                            JSONObject movie = results.getJSONObject(i);
                            MovieItems movieItems = new MovieItems(movie);
-                           // Cek jika urlnya itu null atau tidak
-                           if(movieItems.getMoviePosterUrl() != null){
-                               // Jika urlnya itu ga null, maka kita tambahkan object MovieItems
-                               // ke ArrayList<MovieItems>
-                               movieItemses.add(movieItems);
-                           }
+                           movieItemses.add(movieItems);
                        }
                     } catch (Exception e){
                         e.printStackTrace();
