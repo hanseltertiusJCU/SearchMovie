@@ -97,7 +97,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/languages_title"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/color_title"/>
 
                 <TextView
                     android:id="@+id/detailed_movie_languages_text"
@@ -111,7 +112,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/genres_title"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/color_title"/>
 
                 <TextView
                     android:id="@+id/detailed_movie_genres_text"
@@ -125,7 +127,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/release_date_title"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/color_title"/>
 
                 <TextView
                     android:id="@+id/detailed_movie_release_date_text"
@@ -139,7 +142,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/overview_title"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/color_title"/>
 
                 <TextView
                     android:id="@+id/detailed_movie_overview_text"

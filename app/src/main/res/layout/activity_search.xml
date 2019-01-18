@@ -35,6 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
+                android:background="@color/color_button"
+                android:textColor="@color/color_white"
                 android:text="@string/search_text"/>
 
         </LinearLayout>
