@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ButtonSearch" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:color">@color/color_button</item>
+    </style>
+
 </resources>

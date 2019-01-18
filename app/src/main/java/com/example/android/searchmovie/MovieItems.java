@@ -1,11 +1,6 @@
 package com.example.android.searchmovie;
 
-import android.util.Log;
-
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MovieItems {
 
@@ -16,8 +11,9 @@ public class MovieItems {
     private String movieLanguage;
     private String moviePosterPath;
 
-    public MovieItems(JSONObject object){
-        try{
+    public MovieItems(JSONObject object) {
+        try {
+            // Get JSON object fields
             int id = object.getInt("id");
             String title = object.getString("title");
             String rating = object.getString("vote_average");
@@ -25,7 +21,7 @@ public class MovieItems {
             String language = object.getString("original_language");
             // Ubah language menjadi upper case
             String displayed_language = language.toUpperCase();
-            // Dapatkan poster path untuk link
+            // Dapatkan poster path untuk di extract ke url {@link MovieAdapter}
             String posterPath = object.getString("poster_path");
 
             // Set values bedasarkan variable-variable yang merepresentasikan field dari sebuah JSON
@@ -37,8 +33,7 @@ public class MovieItems {
             this.movieLanguage = displayed_language;
             this.moviePosterPath = posterPath;
 
-
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -52,7 +47,12 @@ public class MovieItems {
     }
 
     public String getMovieTitle() {
-        return movieTitle;
+        // Set default value for MovieTitle if MovieTitle is null or ""
+        if (movieTitle != null && !movieTitle.isEmpty()) {
+            return movieTitle;
+        } else {
+            return "Title Unknown";
+        }
     }
 
     public void setMovieTitle(String movieTitle) {
@@ -68,10 +68,11 @@ public class MovieItems {
     }
 
     public String getMovieReleaseDate() {
-        if(movieReleaseDate != null && !movieReleaseDate.isEmpty()) {
+        // Set default value for MovieReleaseDate if MovieReleaseDate is null or ""
+        if (movieReleaseDate != null && !movieReleaseDate.isEmpty()) {
             return movieReleaseDate;
         } else {
-            return "yyyy-MM-dd";
+            return "Release Date Unknown";
         }
     }
 
@@ -80,7 +81,8 @@ public class MovieItems {
     }
 
     public String getMovieLanguage() {
-        if (movieLanguage != null && !movieLanguage.isEmpty()){
+        // Set default value for MovieLanguage if MovieLanguage is null or ""
+        if (movieLanguage != null && !movieLanguage.isEmpty()) {
             return movieLanguage;
         } else {
             return "Language Unknown";

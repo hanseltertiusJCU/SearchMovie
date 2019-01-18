@@ -12,16 +12,12 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class DetailedMovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<DetailedMovieItems>>{
+public class DetailedMovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<DetailedMovieItems>> {
 
-    ArrayList<DetailedMovieItems> mDetailedMovieData;
-    boolean mHasResult = false;
-
+    private static final String MOVIE_API_KEY = "920c265d2e074ebf06d98bf438bded70";
+    private ArrayList<DetailedMovieItems> mDetailedMovieData;
+    private boolean mHasResult = false;
     private int mDetailedMovieId;
-
-    public ArrayList<DetailedMovieItems> getmDetailedMovieData() {
-        return mDetailedMovieData;
-    }
 
     public DetailedMovieAsyncTaskLoader(Context context, int detailedMovieId) {
         super(context);
@@ -33,9 +29,9 @@ public class DetailedMovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<Deta
     @Override
     protected void onStartLoading() {
         super.onStartLoading();
-        if(takeContentChanged())
+        if (takeContentChanged())
             forceLoad();
-        else if(mHasResult)
+        else if (mHasResult)
             deliverResult(mDetailedMovieData);
     }
 
@@ -50,7 +46,7 @@ public class DetailedMovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<Deta
     protected void onReset() {
         super.onReset();
         onStopLoading();
-        if(mHasResult){
+        if (mHasResult) {
             onReleaseResources(mDetailedMovieData);
             mDetailedMovieData = null;
             mHasResult = false;
@@ -59,8 +55,6 @@ public class DetailedMovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<Deta
 
     private void onReleaseResources(ArrayList<DetailedMovieItems> mDetailedMovieData) {
     }
-
-    private static final String MOVIE_API_KEY = "920c265d2e074ebf06d98bf438bded70";
 
     @Override
     public ArrayList<DetailedMovieItems> loadInBackground() {
@@ -82,12 +76,12 @@ public class DetailedMovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<Deta
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try{
+                try {
                     String result = new String(responseBody);
                     JSONObject responseObject = new JSONObject(result);
                     DetailedMovieItems detailedMovieItems = new DetailedMovieItems(responseObject);
                     detailedMovieItemses.add(detailedMovieItems);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

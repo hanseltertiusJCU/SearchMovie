@@ -21,6 +21,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/border"
             android:orientation="horizontal">
 
             <EditText
@@ -28,6 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
                 android:hint="@string/hint_text"
                 />
 
@@ -36,10 +39,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@color/color_button"
                 android:textColor="@color/color_white"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="@string/search_text"/>
+                android:layout_margin="8dp"
+                android:text="@string/search_text" />
 
         </LinearLayout>
 
@@ -48,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@android:color/transparent"
-            android:dividerHeight="@dimen/activity_vertical_margin"/>
+            android:dividerHeight="@dimen/activity_vertical_margin"
+            android:drawSelectorOnTop="true"/>
 
     </LinearLayout>
 

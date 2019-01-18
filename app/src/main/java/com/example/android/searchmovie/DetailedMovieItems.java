@@ -1,7 +1,5 @@
 package com.example.android.searchmovie;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,70 +17,72 @@ public class DetailedMovieItems {
     private String detailtedMovieOverview;
     private String detailedMoviePosterPath;
 
-    public DetailedMovieItems(JSONObject object){
-        try{
+    public DetailedMovieItems(JSONObject object) {
+        try {
             int id = object.getInt("id");
-            String title = object.getString("title");
-            String tagline = object.getString("tagline");
-            String status = object.getString("status");
-            String rating = object.getString("vote_average");
-            String ratingVotes = object.getString("vote_count");
+            String detailedTitle = object.getString("title");
+            String detailedTagline = object.getString("tagline");
+            String detailedStatus = object.getString("status");
+            String detailedRating = object.getString("vote_average");
+            String detailedRatingVotes = object.getString("vote_count");
             JSONArray languageArray = object.getJSONArray("spoken_languages");
-            String languages = null;
-            if(languageArray.length() > 0){
+            String detailedLanguages = null;
+            // Cek jika languageArray ada datanya atau tidak
+            if (languageArray.length() > 0) {
                 // Iterate language array untuk mendapatkan language yang akan ditambahkan ke languages
                 // fyi: languages itu adalah koleksi dari language field
-                for(int i = 0; i < languageArray.length(); i++){
+                for (int i = 0; i < languageArray.length(); i++) {
                     JSONObject languageObject = languageArray.getJSONObject(i);
                     String language = languageObject.getString("name");
-                    if(i == 0)
-                        languages = language + " ";
+                    if (i == 0)
+                        detailedLanguages = language + " ";
                     else
-                        languages += language + " ";
+                        detailedLanguages += language + " ";
                 }
             } else {
-                languages = "Language Unknown";
+                detailedLanguages = "Language Unknown";
             }
 
             JSONArray genreArray = object.getJSONArray("genres");
-            String genres = null;
+            String detailedGenres = null;
 
-            if(genreArray.length() > 0){
+            // Cek jika genreArray ada datanya atau tidak, jika tidak set default value untuk String
+            // genres (isinya adalah item yg ada di array)
+            if (genreArray.length() > 0) {
                 // Iterate genre array untuk mendapatkan genre yang akan ditambahkan ke genres
                 // fyi: genres itu adalah koleksi dari genre field
-                for(int i = 0; i< genreArray.length(); i++){
+                for (int i = 0; i < genreArray.length(); i++) {
                     JSONObject genreObject = genreArray.getJSONObject(i);
                     String genre = genreObject.getString("name");
-                    if(i == 0)
-                        genres = genre + " ";
+                    if (i == 0)
+                        detailedGenres = genre + " ";
                     else
-                        genres += genre + " ";
+                        detailedGenres += genre + " ";
                 }
             } else {
-                genres = "Genre Unknown";
+                detailedGenres = "Genre Unknown";
             }
 
-            String releaseDate = object.getString("release_date");
-            String overview = object.getString("overview");
-            // Dapatkan detailed movie poster path untuk link
+            String detailedReleaseDate = object.getString("release_date");
+            String detailedOverview = object.getString("overview");
+            // Dapatkan detailed movie poster path untuk url {@link DetailActivity}
             String detailedPosterPath = object.getString("poster_path");
-            Log.d("Detailed path: ", detailedPosterPath);
 
             // Set values bedasarkan variable-variable yang merepresentasikan field dari sebuah JSON
             // object
             this.id = id;
-            this.detailedMovieTitle = title;
-            this.detailedMovieTagline = tagline;
-            this.detailedMovieStatus = status;
-            this.detailedMovieRatings = rating;
-            this.detailedMovieRatingsVote = ratingVotes;
-            this.detailedMovieLanguages = languages;
-            this.detailedMovieGenres = genres;
-            this.detailedMovieReleaseDate = releaseDate;
-            this.detailtedMovieOverview = overview;
+            this.detailedMovieTitle = detailedTitle;
+            this.detailedMovieTagline = detailedTagline;
+            this.detailedMovieStatus = detailedStatus;
+            this.detailedMovieRatings = detailedRating;
+            this.detailedMovieRatingsVote = detailedRatingVotes;
+            this.detailedMovieLanguages = detailedLanguages;
+            this.detailedMovieGenres = detailedGenres;
+            this.detailedMovieReleaseDate = detailedReleaseDate;
+            this.detailtedMovieOverview = detailedOverview;
             this.detailedMoviePosterPath = detailedPosterPath;
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -96,7 +96,12 @@ public class DetailedMovieItems {
     }
 
     public String getDetailedMovieTitle() {
-        return detailedMovieTitle;
+        // Set default value for DetailedMovieTitle if DetailedMovieTitle is null or ""
+        if (detailedMovieTitle != null && !detailedMovieTitle.isEmpty()) {
+            return detailedMovieTitle;
+        } else {
+            return "Title Unknown";
+        }
     }
 
     public void setDetailedMovieTitle(String detailedMovieTitle) {
@@ -104,7 +109,8 @@ public class DetailedMovieItems {
     }
 
     public String getDetailedMovieTagline() {
-        if(detailedMovieTagline != null && !detailedMovieTagline.isEmpty()){
+        // Set default value for DetailedMovieTagline if DetailedMovieTagline is null or ""
+        if (detailedMovieTagline != null && !detailedMovieTagline.isEmpty()) {
             return detailedMovieTagline;
         } else {
             return "Tagline Unknown";
@@ -117,7 +123,13 @@ public class DetailedMovieItems {
     }
 
     public String getDetailedMovieStatus() {
-        return detailedMovieStatus;
+        // Set default value for DetailedMovieStatus if DetailedMovieStatus is null or ""
+        if (detailedMovieStatus != null && !detailedMovieStatus.isEmpty()) {
+            return detailedMovieStatus;
+        } else {
+            return "Status Unknown";
+        }
+
     }
 
     public void setDetailedMovieStatus(String detailedMovieStatus) {
@@ -157,10 +169,11 @@ public class DetailedMovieItems {
     }
 
     public String getDetailedMovieReleaseDate() {
-        if(detailedMovieReleaseDate != null && !detailedMovieReleaseDate.isEmpty()) {
+        // Set default value for DetailedMovieReleaseDate if DetailedMovieReleaseDate is null or ""
+        if (detailedMovieReleaseDate != null && !detailedMovieReleaseDate.isEmpty()) {
             return detailedMovieReleaseDate;
         } else {
-            return "yyyy-MM-dd";
+            return "Release Date Unknown";
         }
     }
 
@@ -169,7 +182,8 @@ public class DetailedMovieItems {
     }
 
     public String getDetailtedMovieOverview() {
-        if(detailtedMovieOverview != null && !detailtedMovieOverview.isEmpty()){
+        // Set default value for DetailedMovieOverview if DetailedMovieOverview is null or ""
+        if (detailtedMovieOverview != null && !detailtedMovieOverview.isEmpty()) {
             return detailtedMovieOverview;
         } else {
             return "Overview Unknown";
