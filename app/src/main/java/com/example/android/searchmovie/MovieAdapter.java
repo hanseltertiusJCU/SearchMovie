@@ -6,6 +6,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class MovieAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             // Kita set root menjadi null karena kita ingin mengatur list item, bukan Activity
             convertView = mLayoutInflater.inflate(R.layout.movie_items, null);
+
             viewHolder.imageViewMoviePoster = (ImageView) convertView.findViewById(R.id.poster_image);
             viewHolder.textViewMovieTitle = (TextView) convertView.findViewById(R.id.movie_title_text);
             viewHolder.textViewMovieRatings = (TextView) convertView.findViewById(R.id.movie_ratings_text);
@@ -83,27 +85,26 @@ public class MovieAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if(mMovieData.get(position).getMoviePosterPath() != null)
-            Picasso.get().load("https://image.tmdb.org/t/p/w185" + mMovieData.get(position).getMoviePosterPath()).into(viewHolder.imageViewMoviePoster);
-        else
-            viewHolder.imageViewMoviePoster.setImageResource(R.drawable.no_image_available);
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
+        Picasso.get().load("https://image.tmdb.org/t/p/w185" + mMovieData.get(position).getMoviePosterPath()).into(viewHolder.imageViewMoviePoster);
 
-
-        if(mMovieData.get(position).getMovieTitle() == null)
-            viewHolder.textViewMovieTitle.setText("Title Unknown");
-        else
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
+        if(mMovieData.get(position).getMovieTitle() != null)
             viewHolder.textViewMovieTitle.setText(mMovieData.get(position).getMovieTitle());
+        else
+            viewHolder.textViewMovieTitle.setText("Title Unknown");
 
         // Set textview content in movie item rating to contain a variety of different colors
         Spannable ratingMovieItemWord = new SpannableString("Ratings : ");
         ratingMovieItemWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingMovieItemWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.textViewMovieRatings.setText(ratingMovieItemWord);
-        if(mMovieData.get(position).getMovieRatings() == null){
-            Spannable ratingMovieItem = new SpannableString(String.valueOf(0.0));
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
+        if(mMovieData.get(position).getMovieRatings() != null){
+            Spannable ratingMovieItem = new SpannableString(mMovieData.get(position).getMovieRatings());
             ratingMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, ratingMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolder.textViewMovieRatings.append(ratingMovieItem);
         } else {
-            Spannable ratingMovieItem = new SpannableString(mMovieData.get(position).getMovieRatings());
+            Spannable ratingMovieItem = new SpannableString(String.valueOf(0.0));
             ratingMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, ratingMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolder.textViewMovieRatings.append(ratingMovieItem);
         }
@@ -112,7 +113,8 @@ public class MovieAdapter extends BaseAdapter {
         Spannable releaseDateMovieItemWord = new SpannableString("Release Date : ");
         releaseDateMovieItemWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, releaseDateMovieItemWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.textViewMovieReleaseDate.setText(releaseDateMovieItemWord);
-        if(!mMovieData.get(position).getMovieReleaseDate().equals("")){
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
+        if(mMovieData.get(position).getMovieReleaseDate() != null){
             Spannable releaseDateMovieItem = new SpannableString(mMovieData.get(position).getMovieReleaseDate());
             releaseDateMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, releaseDateMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolder.textViewMovieReleaseDate.append(releaseDateMovieItem);
@@ -122,17 +124,17 @@ public class MovieAdapter extends BaseAdapter {
             viewHolder.textViewMovieReleaseDate.append(releaseDateMovieItem);
         }
 
-
         // Set textview content in movie item original language to contain a variety of different colors
         Spannable languageMovieItemWord = new SpannableString("Language : ");
         languageMovieItemWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, languageMovieItemWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.textViewMovieOriginalLanguage.setText(languageMovieItemWord);
-        if(!mMovieData.get(position).getMovieLanguage().equals("")){
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
+        if(mMovieData.get(position).getMovieLanguage() != null){
             Spannable languageMovieItem = new SpannableString(mMovieData.get(position).getMovieLanguage());
             languageMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, languageMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolder.textViewMovieOriginalLanguage.append(languageMovieItem);
         } else {
-            Spannable languageMovieItem = new SpannableString("Unknown");
+            Spannable languageMovieItem = new SpannableString("Language Unknown");
             languageMovieItem.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorAccent)), 0, languageMovieItem.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolder.textViewMovieOriginalLanguage.append(languageMovieItem);
         }

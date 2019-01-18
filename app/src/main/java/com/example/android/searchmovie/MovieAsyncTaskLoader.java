@@ -109,7 +109,10 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
                         for(int i = 0; i < results.length(); i++){
                             JSONObject movie = results.getJSONObject(i);
                             MovieItems movieItems = new MovieItems(movie);
-                            movieItemses.add(movieItems);
+                            // Filter data yg tidak ada poster pathnya
+                            if(movieItems.getMoviePosterPath() != null && !movieItems.getMoviePosterPath().isEmpty()) {
+                                movieItemses.add(movieItems);
+                            }
                         }
                     } catch (Exception e){
                         e.printStackTrace();
@@ -141,7 +144,10 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>>
                        for (int i = 0; i < results.length(); i++){
                            JSONObject movie = results.getJSONObject(i);
                            MovieItems movieItems = new MovieItems(movie);
-                           movieItemses.add(movieItems);
+                           // Filter data yg tidak ada poster pathnya
+                           if(movieItems.getMoviePosterPath() != null && !movieItems.getMoviePosterPath().isEmpty()){
+                               movieItemses.add(movieItems);
+                           }
                        }
                     } catch (Exception e){
                         e.printStackTrace();

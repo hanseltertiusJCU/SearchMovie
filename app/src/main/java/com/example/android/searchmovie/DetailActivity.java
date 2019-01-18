@@ -51,7 +51,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         imageViewDetailedPosterImage = findViewById(R.id.detailed_poster_image);
         textViewDetailedMovieTitle = findViewById(R.id.detailed_movie_title_text);
         textViewDetailedMovieTagline = findViewById(R.id.detailed_movie_tagline_text);
-        textViewDetailedMovieRuntime = findViewById(R.id.detailed_movie_runtime_text);
+        textViewDetailedMovieRuntime = findViewById(R.id.detailed_movie_status_text);
         textViewDetailedMovieRating = findViewById(R.id.detailed_movie_rating_text);
         textViewDetailedMovieLanguage = findViewById(R.id.detailed_movie_languages_text);
         textViewDetailedMovieGenres = findViewById(R.id.detailed_movie_genres_text);
@@ -97,67 +97,47 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         // dari ArrayList sejak kita ingin show hanya satu object.
         Log.d("ID Detailed Movie: ", String.valueOf(detailedMovieItems.get(0).getId()));
 
+        Picasso.get().load("https://image.tmdb.org/t/p/w185" + detailedMovieItems.get(0).getDetailedMoviePosterPath()).into(imageViewDetailedPosterImage);
 
-        if(detailedMovieItems.get(0).getDetailedMoviePosterPath() != null) {
-            Log.d("URL Detailed Movie: ", "https://image.tmdb.org/t/p/w185" + detailedMovieItems.get(0).getDetailedMoviePosterPath());
-            Picasso.get().load("https://image.tmdb.org/t/p/w185" + detailedMovieItems.get(0).getDetailedMoviePosterPath()).into(imageViewDetailedPosterImage);
-        } else
-            imageViewDetailedPosterImage.setImageResource(R.drawable.no_image_available);
-
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
         if(detailedMovieItems.get(0).getDetailedMovieTitle() != null) {
             Log.d("Title Detailed Movie: " , detailedMovieItems.get(0).getDetailedMovieTitle());
             textViewDetailedMovieTitle.setText(detailedMovieItems.get(0).getDetailedMovieTitle());
         }else
             textViewDetailedMovieTitle.setText("Title Unknown");
 
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
         if(detailedMovieItems.get(0).getDetailedMovieTagline() != null){
             Log.d("Tagline Detailed Movie:" , detailedMovieItems.get(0).getDetailedMovieTagline());
             textViewDetailedMovieTagline.setText("\"" + detailedMovieItems.get(0).getDetailedMovieTagline() + "\"");
         } else {
-            textViewDetailedMovieTagline.setText("\" \"");
+            textViewDetailedMovieTagline.setText("Tagline Unknown");
         }
 
 
         // Set textview content in detailed movie runtime to contain a variety of different colors
-        Spannable runtimeWord = new SpannableString("Runtime: ");
-        runtimeWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, runtimeWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        textViewDetailedMovieRuntime.setText(runtimeWord);
+        Spannable statusWord = new SpannableString("Status: ");
+        statusWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, statusWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewDetailedMovieRuntime.setText(statusWord);
 
-        if(detailedMovieItems.get(0).getDetailedMovieRuntimeHour() != null){
-            Log.d("Hour Detailed Movie:" , detailedMovieItems.get(0).getDetailedMovieRuntimeHour());
-            Spannable runtimeDetailedMovieHour = new SpannableString(detailedMovieItems.get(0).getDetailedMovieRuntimeHour());
-            runtimeDetailedMovieHour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, runtimeDetailedMovieHour.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            textViewDetailedMovieRuntime.append(runtimeDetailedMovieHour);
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
+        if(detailedMovieItems.get(0).getDetailedMovieStatus() != null){
+            Log.d("Status Detailed Movie: " , detailedMovieItems.get(0).getDetailedMovieStatus());
+            Spannable statusDetailedMovie = new SpannableString(detailedMovieItems.get(0).getDetailedMovieStatus());
+            statusDetailedMovie.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, statusDetailedMovie.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            textViewDetailedMovieRuntime.append(statusDetailedMovie);
         } else {
-            Spannable runtimeDetailedMovieHour = new SpannableString(String.valueOf(0));
-            runtimeDetailedMovieHour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, runtimeDetailedMovieHour.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            textViewDetailedMovieRuntime.append(runtimeDetailedMovieHour);
+            Spannable statusDetailedMovie = new SpannableString("Invalid Status");
+            statusDetailedMovie.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, statusDetailedMovie.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            textViewDetailedMovieRuntime.append(statusDetailedMovie);
         }
-
-        Spannable runtimeHours = new SpannableString(" hour(s) ");
-        runtimeHours.setSpan(new ForegroundColorSpan(Color.BLACK), 0, runtimeHours.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        textViewDetailedMovieRuntime.append(runtimeHours);
-
-        if(detailedMovieItems.get(0).getDetailedMovieRuntimeMinute() != null){
-            Log.d("Minute Detailed Movie: " , detailedMovieItems.get(0).getDetailedMovieRuntimeMinute());
-            Spannable runtimeDetailedMovieMinute = new SpannableString(detailedMovieItems.get(0).getDetailedMovieRuntimeMinute());
-            runtimeDetailedMovieMinute.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, runtimeDetailedMovieMinute.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            textViewDetailedMovieRuntime.append(runtimeDetailedMovieMinute);
-        } else {
-            Spannable runtimeDetailedMovieMinute = new SpannableString(String.valueOf(0));
-            runtimeDetailedMovieMinute.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), 0, runtimeDetailedMovieMinute.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            textViewDetailedMovieRuntime.append(runtimeDetailedMovieMinute);
-        }
-
-        Spannable runtimeMinutes = new SpannableString(" minute(s) ");
-        runtimeMinutes.setSpan(new ForegroundColorSpan(Color.BLACK), 0, runtimeMinutes.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        textViewDetailedMovieRuntime.append(runtimeMinutes);
 
         // Set textview content in detailed movie rating to contain a variety of different colors
         Spannable ratingWord = new SpannableString("Rating : ");
         ratingWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textViewDetailedMovieRating.setText(ratingWord);
 
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
         if(detailedMovieItems.get(0).getDetailedMovieRatings() != null){
             Log.d("Rating Detailed Movie: " , detailedMovieItems.get(0).getDetailedMovieRatings());
             Spannable ratingDetailedMovie = new SpannableString(detailedMovieItems.get(0).getDetailedMovieRatings());
@@ -172,6 +152,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         Spannable ratingFromWord = new SpannableString(" from ");
         ratingFromWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingFromWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textViewDetailedMovieRating.append(ratingFromWord);
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
         if(detailedMovieItems.get(0).getDetailedMovieRatingsVote() != null){
             Log.d("Rating vote Movie: " , detailedMovieItems.get(0).getDetailedMovieRatingsVote());
             Spannable ratingDetailedMovieVotes = new SpannableString(detailedMovieItems.get(0).getDetailedMovieRatingsVote());
@@ -186,7 +167,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         Spannable ratingVotesWord = new SpannableString(" vote(s)");
         ratingVotesWord.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingVotesWord.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textViewDetailedMovieRating.append(ratingVotesWord);
-
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
         if(detailedMovieItems.get(0).getDetailedMovieLanguages() != null){
             Log.d("Language Detail Movie: " , detailedMovieItems.get(0).getDetailedMovieLanguages());
             textViewDetailedMovieLanguage.setText(detailedMovieItems.get(0).getDetailedMovieLanguages());
@@ -194,6 +175,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             textViewDetailedMovieLanguage.setText("Language Unknown");
         }
 
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
         if(detailedMovieItems.get(0).getDetailedMovieGenres() != null){
             Log.d("Genre Detail Movie: " , detailedMovieItems.get(0).getDetailedMovieGenres());
             textViewDetailedMovieGenres.setText(detailedMovieItems.get(0).getDetailedMovieGenres());
@@ -201,6 +183,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             textViewDetailedMovieGenres.setText("Genre Unknown");
         }
 
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
         if(detailedMovieItems.get(0).getDetailedMovieReleaseDate() != null){
             Log.d("R. Date Detail Movie: " , detailedMovieItems.get(0).getDetailedMovieReleaseDate());
             textViewDetailedMovieReleaseDate.setText(detailedMovieItems.get(0).getDetailedMovieReleaseDate());
@@ -208,11 +191,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             textViewDetailedMovieReleaseDate.setText("yyyy-MM-dd");
         }
 
+        // Cek jika datanya itu memiliki value null, kalo iya, pake value placeholder agar applikasi ttp berjalan
         if(detailedMovieItems.get(0).getDetailtedMovieOverview() != null){
             Log.d("Overview Detail Movie: " , detailedMovieItems.get(0).getDetailtedMovieOverview());
             textViewDetailedMovieOverview.setText(detailedMovieItems.get(0).getDetailtedMovieOverview());
         } else {
-            textViewDetailedMovieOverview.setText("Description Unknown");
+            textViewDetailedMovieOverview.setText("Overview Unknown");
         }
 
 

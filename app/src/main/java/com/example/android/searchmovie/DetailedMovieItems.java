@@ -5,16 +5,12 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class DetailedMovieItems {
 
     private int id;
     private String detailedMovieTitle;
     private String detailedMovieTagline;
-    private String detailedMovieRuntimeHour;
-    private String detailedMovieRuntimeMinute;
+    private String detailedMovieStatus;
     private String detailedMovieRatings;
     private String detailedMovieRatingsVote;
     private String detailedMovieLanguages;
@@ -28,38 +24,9 @@ public class DetailedMovieItems {
             int id = object.getInt("id");
             String title = object.getString("title");
             String tagline = object.getString("tagline");
-            String runtime = object.getString("runtime");
-            Log.d("Runtime detailed movie:", runtime);
-            String hourText;
-            String minuteText;
-
-            if(runtime != null){
-                // Cari runtime hour tanpa ada decimal places
-                Integer hour = ((int) Integer.parseInt(runtime) / 60);
-                hourText = String.valueOf(hour);
-                // Cari runtime minute dengan mendapatkan sisa dari pembagian (% operator)
-                Integer minute = Integer.parseInt(runtime) % 60;
-                minuteText = String.valueOf(minute);
-            } else {
-                hourText = String.valueOf(0);
-                minuteText = String.valueOf(0);
-            }
-
+            String status = object.getString("status");
             String rating = object.getString("vote_average");
-            String ratingText;
-            if(rating != null)
-                ratingText = rating;
-            else
-                ratingText = String.valueOf(0);
-
             String ratingVotes = object.getString("vote_count");
-            String ratingVotesText;
-            if(ratingVotes != null)
-                ratingVotesText = ratingVotes;
-            else
-                ratingVotesText = String.valueOf(0);
-
-
             JSONArray languageArray = object.getJSONArray("spoken_languages");
             String languages = null;
             if(languageArray.length() > 0){
@@ -74,7 +41,7 @@ public class DetailedMovieItems {
                         languages += language + " ";
                 }
             } else {
-                languages = " ";
+                languages = "Language Unknown";
             }
 
             JSONArray genreArray = object.getJSONArray("genres");
@@ -92,7 +59,7 @@ public class DetailedMovieItems {
                         genres += genre + " ";
                 }
             } else {
-                genres = " ";
+                genres = "Genre Unknown";
             }
 
             String releaseDate = object.getString("release_date");
@@ -106,10 +73,9 @@ public class DetailedMovieItems {
             this.id = id;
             this.detailedMovieTitle = title;
             this.detailedMovieTagline = tagline;
-            this.detailedMovieRuntimeHour = hourText;
-            this.detailedMovieRuntimeMinute = minuteText;
-            this.detailedMovieRatings = ratingText;
-            this.detailedMovieRatingsVote = ratingVotesText;
+            this.detailedMovieStatus = status;
+            this.detailedMovieRatings = rating;
+            this.detailedMovieRatingsVote = ratingVotes;
             this.detailedMovieLanguages = languages;
             this.detailedMovieGenres = genres;
             this.detailedMovieReleaseDate = releaseDate;
@@ -138,27 +104,24 @@ public class DetailedMovieItems {
     }
 
     public String getDetailedMovieTagline() {
-        return detailedMovieTagline;
+        if(detailedMovieTagline != null && !detailedMovieTagline.isEmpty()){
+            return detailedMovieTagline;
+        } else {
+            return "Tagline Unknown";
+        }
+
     }
 
     public void setDetailedMovieTagline(String detailedMovieTagline) {
         this.detailedMovieTagline = detailedMovieTagline;
     }
 
-    public String getDetailedMovieRuntimeHour() {
-        return detailedMovieRuntimeHour;
+    public String getDetailedMovieStatus() {
+        return detailedMovieStatus;
     }
 
-    public void setDetailedMovieRuntimeHour(String detailedMovieRuntimeHour) {
-        this.detailedMovieRuntimeHour = detailedMovieRuntimeHour;
-    }
-
-    public String getDetailedMovieRuntimeMinute() {
-        return detailedMovieRuntimeMinute;
-    }
-
-    public void setDetailedMovieRuntimeMinute(String detailedMovieRuntimeMinute) {
-        this.detailedMovieRuntimeMinute = detailedMovieRuntimeMinute;
+    public void setDetailedMovieStatus(String detailedMovieStatus) {
+        this.detailedMovieStatus = detailedMovieStatus;
     }
 
     public String getDetailedMovieRatings() {
@@ -194,7 +157,11 @@ public class DetailedMovieItems {
     }
 
     public String getDetailedMovieReleaseDate() {
-        return detailedMovieReleaseDate;
+        if(detailedMovieReleaseDate != null && !detailedMovieReleaseDate.isEmpty()) {
+            return detailedMovieReleaseDate;
+        } else {
+            return "yyyy-MM-dd";
+        }
     }
 
     public void setDetailedMovieReleaseDate(String detailedMovieReleaseDate) {
@@ -202,7 +169,11 @@ public class DetailedMovieItems {
     }
 
     public String getDetailtedMovieOverview() {
-        return detailtedMovieOverview;
+        if(detailtedMovieOverview != null && !detailtedMovieOverview.isEmpty()){
+            return detailtedMovieOverview;
+        } else {
+            return "Overview Unknown";
+        }
     }
 
     public void setDetailtedMovieOverview(String detailtedMovieOverview) {

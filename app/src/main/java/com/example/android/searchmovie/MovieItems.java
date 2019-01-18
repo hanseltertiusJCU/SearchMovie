@@ -27,7 +27,6 @@ public class MovieItems {
             String displayed_language = language.toUpperCase();
             // Dapatkan poster path untuk link
             String posterPath = object.getString("poster_path");
-            Log.d("poster path movie", posterPath);
 
             // Set values bedasarkan variable-variable yang merepresentasikan field dari sebuah JSON
             // object
@@ -69,7 +68,11 @@ public class MovieItems {
     }
 
     public String getMovieReleaseDate() {
-        return movieReleaseDate;
+        if(movieReleaseDate != null && !movieReleaseDate.isEmpty()) {
+            return movieReleaseDate;
+        } else {
+            return "yyyy-MM-dd";
+        }
     }
 
     public void setMovieReleaseDate(String movieReleaseDate) {
@@ -77,7 +80,11 @@ public class MovieItems {
     }
 
     public String getMovieLanguage() {
-        return movieLanguage;
+        if (movieLanguage != null && !movieLanguage.isEmpty()){
+            return movieLanguage;
+        } else {
+            return "Language Unknown";
+        }
     }
 
     public void setMovieLanguage(String movieLanguage) {

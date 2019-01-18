@@ -8,7 +8,7 @@
     <string name="movie_language_text">Language</string>
     <string name="search_movie">Search Movie</string>
     <string name="detailed_movie_rating_text">Detailed Movie Rating Text</string>
-    <string name="detailed_movie_runtime_text">Detailed Movie Runtime Text</string>
+    <string name="detailed_movie_status_text">Detailed Movie Status Text</string>
     <string name="detailed_movie_tagline_text">Detailed Movie Tagline Text</string>
     <string name="detailed_movie_title_text">Detailed Movie Title Text</string>
     <string name="detailed_movie_overview_text">Detailed Overview</string>
